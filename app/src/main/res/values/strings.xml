@@ -1,0 +1,27 @@
+<resources>
+    <string name="app_name">TrackCurrencyApp</string>
+
+    <string name="select_label">Select Currency</string>
+    <string name="sort_label">Select Sorting</string>
+    <string name="type_sort_label"> Choose sort type:</string>
+    <string name="order_sort_label"> Choose order type:</string>
+    <string name="alert_dialog_button">OK</string>
+    <string name="alert_dialog_title">Warning!</string>
+
+    <string name="alphabetical_order_label">In alphabetical order</string>
+    <string name="value_order_label"> In value order</string>
+    <string name="increase_order_label">In ascending order</string>
+    <string name="decrease_order_label"> In descending order</string>
+
+    <string-array name="currency_codes">
+        <item>USD</item>
+        <item>EUR</item>
+        <item>GBP</item>
+        <item>PLN</item>
+        <item>KMF</item>
+        <item>LBP</item>
+        <item>KRW</item>
+        <item>AED</item>
+    </string-array>
+
+</resources>
