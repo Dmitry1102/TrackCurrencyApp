@@ -32,8 +32,8 @@ class PopularViewModel @Inject constructor(
    private val currencyFormat: CurrencyFormat
 ): ViewModel() {
 
-   private val _conversion = MutableStateFlow<CurrencyEvent>(CurrencyEvent.Empty)
-   val conversion: StateFlow<CurrencyEvent> = _conversion.asStateFlow()
+   private val _eventStateFlow = MutableStateFlow<CurrencyEvent>(CurrencyEvent.Empty)
+   val eventStateFlow: StateFlow<CurrencyEvent> = _eventStateFlow.asStateFlow()
 
    sealed class CurrencyEvent {
       class Success(val currency: List<CurrencyView>): CurrencyEvent()
@@ -44,14 +44,14 @@ class PopularViewModel @Inject constructor(
 
    fun getCurrencies() {
       viewModelScope.launch(dispatchers.io) {
-         _conversion.value = CurrencyEvent.Loading
+         _eventStateFlow.value = CurrencyEvent.Loading
          handleCurrencyResponse()
       }
    }
 
    fun getCurrencyByName(name: String) {
       viewModelScope.launch(dispatchers.io) {
-         _conversion.value = CurrencyEvent.Loading
+         _eventStateFlow.value = CurrencyEvent.Loading
 
          val response = popularUseCase.getCurrencyByName(name = name)
          val currencyResponse = response.data ?: defaultCurrency.getDefaultCurrency()
@@ -59,7 +59,7 @@ class PopularViewModel @Inject constructor(
 
          when (response) {
             is Resource.Success -> onSuccess(currencyResponse)
-            is Resource.Failure -> _conversion.value = CurrencyEvent.Failure(errorMessage)
+            is Resource.Failure -> _eventStateFlow.value = CurrencyEvent.Failure(errorMessage)
          }
       }
    }
@@ -91,7 +91,7 @@ class PopularViewModel @Inject constructor(
             increase = checkSort(VALUE_ORDER, sortCurrencies)
          )
 
-      _conversion.value = CurrencyEvent.Success(currencyViewList.currencyList)
+      _eventStateFlow.value = CurrencyEvent.Success(currencyViewList.currencyList)
    }
 
    private suspend fun handleCurrencyResponse() {
@@ -100,7 +100,7 @@ class PopularViewModel @Inject constructor(
 
       when (currencyResponse) {
          is Resource.Success -> onSuccess(currencyResponse.data)
-         is Resource.Failure -> _conversion.value = CurrencyEvent.Failure(errorMessage)
+         is Resource.Failure -> _eventStateFlow.value = CurrencyEvent.Failure(errorMessage)
       }
    }
 

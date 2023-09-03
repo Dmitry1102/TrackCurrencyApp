@@ -10,7 +10,7 @@ interface IPopularRepository {
 
    suspend fun getCurrency(): Resource<Currency>
    
-   suspend fun getSpecialCurrencies(symbol: String): Resource<Currency>
+   suspend fun getFavouriteCurrenciesBySymbol(symbol: String): Resource<Currency>
 
    suspend fun getCurrencyByName(name: String): Resource<Currency>
 }
@@ -26,7 +26,7 @@ class PopularRepositoryImpl @Inject constructor(
       }
    }
 
-   override suspend fun getSpecialCurrencies(symbol: String): Resource<Currency> {
+   override suspend fun getFavouriteCurrenciesBySymbol(symbol: String): Resource<Currency> {
       return Resource {
          currencyMapper.map(currencyData = service.getCurrencyBySymbols(symbol = symbol))
       }

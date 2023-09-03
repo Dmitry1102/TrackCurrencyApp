@@ -28,7 +28,7 @@ class FavouriteUseCase @Inject constructor(
    }
 
    override suspend fun getFavouriteByCurrency(currency: String): List<FavouriteEntity> {
-      return repository.getFavouriteByCurrency(currency)
+      return repository.getFavouriteByCurrency(currency = currency)
    }
 
    override suspend fun getAmountOfCurrencies(): Int {
@@ -36,11 +36,11 @@ class FavouriteUseCase @Inject constructor(
    }
 
    override suspend fun insertFavourite(currency: FavouriteEntity){
-      repository.insertFavourite(currency)
+      repository.insertFavourite(currency = currency)
    }
 
    override suspend fun deleteFavourite(currency: FavouriteEntity) {
-      repository.deleteFavourite(currency)
+      repository.deleteFavourite(currency = currency)
    }
 
    override suspend fun deleteAllFavoriteCurrencies() {

@@ -9,7 +9,7 @@ interface IPopularUseCase{
 
     suspend fun getCurrency(): Resource<Currency>
 
-    suspend fun getSpecialCurrencies(special: List<String>): Resource<Currency>
+    suspend fun getFavouriteCurrenciesBySymbol(special: List<String>): Resource<Currency>
 
    suspend fun getCurrencyByName(name: String): Resource<Currency>
 }
@@ -22,8 +22,8 @@ class PopularUseCase @Inject constructor(
       return repository.getCurrency()
    }
 
-   override suspend fun getSpecialCurrencies(special: List<String>): Resource<Currency> {
-      return repository.getSpecialCurrencies(special.joinToString(separator = ","))
+   override suspend fun getFavouriteCurrenciesBySymbol(symbols: List<String>): Resource<Currency> {
+      return repository.getFavouriteCurrenciesBySymbol(symbol = symbols.joinToString(separator = ","))
    }
 
    override suspend fun getCurrencyByName(name: String): Resource<Currency> {

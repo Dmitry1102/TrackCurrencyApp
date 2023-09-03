@@ -1,4 +1,4 @@
-package com.example.trackcurrencyapp.navigation
+package com.example.trackcurrencyapp.presentation.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController

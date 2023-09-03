@@ -30,8 +30,8 @@ class FavouriteViewModel @Inject constructor(
    private val currencyFormat: CurrencyFormat
 ): ViewModel() {
 
-   private val _conversion = MutableStateFlow<FavouriteEvent>(FavouriteEvent.Empty)
-   val conversion: StateFlow<FavouriteEvent> = _conversion.asStateFlow()
+   private val _eventStateFlow = MutableStateFlow<FavouriteEvent>(FavouriteEvent.Empty)
+   val eventStateFlow: StateFlow<FavouriteEvent> = _eventStateFlow.asStateFlow()
 
    private val _emptyStateFlow = MutableStateFlow(true)
    val emptyStateFlow: StateFlow<Boolean> = _emptyStateFlow.asStateFlow()
@@ -47,11 +47,11 @@ class FavouriteViewModel @Inject constructor(
          _emptyStateFlow.emit(value = true)
          val listFavouriteCurrencies = favouriteUseCase.getAllFavoriteCurrencies()
          if(listFavouriteCurrencies.isNotEmpty()) {
-            when(val response = popularUseCase.getSpecialCurrencies(special = listFavouriteCurrencies)) {
+            when(val response = popularUseCase.getFavouriteCurrenciesBySymbol(symbols = listFavouriteCurrencies)) {
                is Resource.Success -> onSuccess(response.data)
                is Resource.Failure -> {
                   val errorMessage = response.message ?: ERROR_MESSAGE
-                  _conversion.value = FavouriteEvent.Failure(errorMessage)
+                  _eventStateFlow.value = FavouriteEvent.Failure(errorMessage)
                }
             }
          }else {
@@ -66,7 +66,7 @@ class FavouriteViewModel @Inject constructor(
          if (currentFavoriteCurrencies.isNotEmpty()) {
             currentFavoriteCurrencies.forEach { currency ->
                if(currentFavoriteCurrencies.last() == currency){
-                  _conversion.value = FavouriteEvent.Success(emptyList())
+                  _eventStateFlow.value = FavouriteEvent.Success(emptyList())
                }
                favouriteUseCase.deleteFavourite(currency)
             }
@@ -95,9 +95,9 @@ class FavouriteViewModel @Inject constructor(
                   increase = checkSort(Constants.VALUE_ORDER, sortCurrencies)
                )
 
-               _conversion.value = FavouriteEvent.Success(favouriteViewList.currencyList)
+               _eventStateFlow.value = FavouriteEvent.Success(favouriteViewList.currencyList)
             }
-            is Resource.Failure -> _conversion.value = FavouriteEvent.Failure(errorMessage)
+            is Resource.Failure -> _eventStateFlow.value = FavouriteEvent.Failure(errorMessage)
          }
       }
    }
@@ -105,7 +105,7 @@ class FavouriteViewModel @Inject constructor(
    fun deleteAllFavoriteCurrencies() {
       viewModelScope.launch(dispatchers.io) {
          favouriteUseCase.deleteAllFavoriteCurrencies()
-         _conversion.value = FavouriteEvent.Success(emptyList())
+         _eventStateFlow.value = FavouriteEvent.Success(emptyList())
       }
    }
 
@@ -119,7 +119,7 @@ class FavouriteViewModel @Inject constructor(
             increase = checkSort(Constants.VALUE_ORDER, sortCurrencies)
       )
 
-      _conversion.value = FavouriteEvent.Success(favouriteViewList.currencyList)
+      _eventStateFlow.value = FavouriteEvent.Success(favouriteViewList.currencyList)
    }
 
    private fun checkSort(typeSort: String, sortMap: Map<String,Boolean>): Boolean {

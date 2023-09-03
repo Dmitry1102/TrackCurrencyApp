@@ -34,5 +34,4 @@ class SortUseCase @Inject constructor(
    override suspend fun update(sortEntity: SortEntity) {
       repository.update(sortEntity = sortEntity)
    }
-
 }

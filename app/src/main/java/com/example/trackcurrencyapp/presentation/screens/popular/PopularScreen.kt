@@ -51,7 +51,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.example.trackcurrencyapp.R
 import com.example.trackcurrencyapp.domain.model.CurrencyView
-import com.example.trackcurrencyapp.navigation.NavigateScreen
+import com.example.trackcurrencyapp.presentation.navigation.NavigateScreen
 import com.example.trackcurrencyapp.presentation.screens.popular.viewModel.PopularViewModel
 import com.example.trackcurrencyapp.presentation.screens.popular.viewModel.PopularViewModel.CurrencyEvent
 import com.example.trackcurrencyapp.presentation.utility.Constants.Companion.RESPONSE_DELAY
@@ -222,12 +222,12 @@ fun PopularScreen(
             )
         }
 
-        val conversionState by viewModel.conversion.collectAsState()
+        val eventState by viewModel.eventStateFlow.collectAsState()
 
-        when (conversionState) {
+        when (eventState) {
             is CurrencyEvent.Success -> {
                 val currencyList =
-                    (conversionState as CurrencyEvent.Success).currency
+                    (eventState as CurrencyEvent.Success).currency
                 FetchLazyColumn(
                     currencyList = currencyList,
                     viewModel = viewModel
@@ -236,7 +236,7 @@ fun PopularScreen(
 
             is CurrencyEvent.Failure -> {
                 val message =
-                    (conversionState as CurrencyEvent.Failure).message
+                    (eventState as CurrencyEvent.Failure).message
                 ShowAlertDialog(
                     message = message
                 )

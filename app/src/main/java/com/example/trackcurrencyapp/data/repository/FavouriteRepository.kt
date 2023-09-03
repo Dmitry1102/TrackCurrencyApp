@@ -26,7 +26,7 @@ class FavouriteRepositoryImpl @Inject constructor(
 ): IFavouriteRepository {
 
    override suspend fun getAllFavoriteCurrencies(): List<String> {
-      return mapper.map(favouriteCurrency = dao.getAllFavoriteCurrencies())
+      return mapper.map(favouriteCurrencyList = dao.getAllFavoriteCurrencies())
    }
 
    override suspend fun getFavouriteByCurrency(currency: String): List<FavouriteEntity> {

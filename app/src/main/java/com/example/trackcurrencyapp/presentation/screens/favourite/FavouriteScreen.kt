@@ -56,7 +56,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.example.trackcurrencyapp.R
 import com.example.trackcurrencyapp.domain.model.CurrencyView
-import com.example.trackcurrencyapp.navigation.NavigateScreen
+import com.example.trackcurrencyapp.presentation.navigation.NavigateScreen
 import com.example.trackcurrencyapp.presentation.screens.favourite.viewModel.FavouriteViewModel
 import com.example.trackcurrencyapp.presentation.screens.favourite.viewModel.FavouriteViewModel.FavouriteEvent
 
@@ -222,11 +222,11 @@ fun FavouriteScreen(
          )
       }
 
-      val conversionState by viewModel.conversion.collectAsState()
+      val eventStateFlow by viewModel.eventStateFlow.collectAsState()
 
-      when(conversionState) {
+      when(eventStateFlow) {
          is FavouriteEvent.Success -> {
-            val currencyList = (conversionState as FavouriteEvent.Success).currency
+            val currencyList = (eventStateFlow as FavouriteEvent.Success).currency
             val listState = rememberLazyListState()
 
             LazyColumn(
@@ -247,7 +247,7 @@ fun FavouriteScreen(
 
          }
          is FavouriteEvent.Failure -> {
-            val message = (conversionState as FavouriteEvent.Failure).message
+            val message = (eventStateFlow as FavouriteEvent.Failure).message
             ShowAlertDialog(message = message)
          }
 

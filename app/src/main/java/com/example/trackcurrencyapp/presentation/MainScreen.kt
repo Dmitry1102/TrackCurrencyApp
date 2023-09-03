@@ -25,8 +25,8 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.trackcurrencyapp.R
-import com.example.trackcurrencyapp.navigation.BottomBarScreen
-import com.example.trackcurrencyapp.navigation.BottomNavGraph
+import com.example.trackcurrencyapp.presentation.navigation.BottomBarScreen
+import com.example.trackcurrencyapp.presentation.navigation.BottomNavGraph
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
